@@ -4,6 +4,7 @@ import numpy as np
 import os
 import pandas as pd
 import stock_data
+import csv
 
 # When short-term crosses above long-term we get a buy signal.
 # When short-term passes below the longer-term we get a sell signal.
@@ -64,5 +65,7 @@ def get_intersection(data, windows=[20, 50]):
             if y11 > y21 and y12 < y22:
                 print(data['Date'][len(data['Date'][:]) - 20 + i], data['Date'][len(data['Date'][:]) - 19 + i])
             if y21 < y11 and y22 > y12:
-                print("CROSS")
-
+                return print("CROSS")
+    with open('PyTA.csv','w', newline='') as csvfile:
+        writer = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+        writer.writerows([ticker,get_intersection("TSLA")])
